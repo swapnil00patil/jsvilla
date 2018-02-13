@@ -7,7 +7,9 @@
     padding: 15px 0;
     border-bottom: 1px solid #907d04;
 }
-.hamburger {
+:host {
     background: #F0DB4F;
-    width:250px
+    width:250px;
+    display: flex;
+    flex-direction: column;
 }
