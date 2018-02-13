@@ -24,15 +24,15 @@ export class AddpostComponent implements OnInit {
   }
 
   onSubmit() { 
-    this.model.tags = [];
     this.postService.savePost(this.model)
     .subscribe(post => {
       console.log(post)
     });
+    this.model.tags = [];
   }
   
-
   onChange(tag:Tag, isChecked: boolean) {
+    console.log(this.model)
     if (isChecked) {
       this.model.tags.push(tag)
     } else {
