@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from './post';
-import { DashboardService } from './dashboard.service'
+import {Router} from "@angular/router";
+
+import { Post } from '../services/post';
+import { PostService } from '../services/post.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -9,14 +11,14 @@ import { DashboardService } from './dashboard.service'
 })
 export class DashboardComponent implements OnInit {
   posts: Post[];
-  constructor(private heroService: DashboardService) { }
+  constructor(private postService: PostService, private router: Router) { }
 
   ngOnInit() {
     this.getPosts();
   }
 
   getPosts(): void {
-    this.heroService.getPosts()
+    this.postService.getPosts()
     .subscribe(posts => this.posts = posts);
   }
 

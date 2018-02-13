@@ -12,18 +12,26 @@ const httpOptions = {
 };
 
 @Injectable()
-export class DashboardService {
+export class PostService {
 
     private getPostsUrl = '/posts';
+    private cachedPosts;
 
     constructor(private http: HttpClient) { }
 
     getPosts(): Observable<Post[]> {
         return this.http.get<Post[]>(this.getPostsUrl)
             .pipe(
-            tap(posts => this.log(`fetched POSTS`)),
+            tap(posts => {
+                this.log(`fetched POSTS`);
+                this.cachAsMap(posts);
+            }),
             catchError(this.handleError('getPosts', []))
             );
+    }
+
+    getPost(id): Post {
+        return this.cachedPosts ? this.cachedPosts[id] : '';
     }
 
     /**
@@ -48,5 +56,12 @@ export class DashboardService {
 
     private log(message: string) {
         console.log('DashboardService: ' + message);
+    }
+
+    private cachAsMap(posts: Post[]) {
+        this.cachedPosts = posts.reduce(function(map, obj) {
+            map[obj.id] = obj;
+            return map;
+        }, {});
     }
 }

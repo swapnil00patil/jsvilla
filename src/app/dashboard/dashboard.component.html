@@ -1,5 +1,7 @@
 <ul>
     <li *ngFor="let post of posts">
-        {{post.title}}
+            <a [routerLink]="['./post', post.id]">view</a>
+        <a href="{{post.url}}" target="_blank">{{post.title}}</a>
+        {{post.description}}
     </li>
 </ul>

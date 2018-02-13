@@ -8,21 +8,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LeftmenuComponent }   from './leftmenu/leftmenu.component';
-import { DashboardService } from './dashboard/dashboard.service';
+import { PostdetailComponent }   from './post-detail/postdetail.component';
+
+import { PostService } from './services/post.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    LeftmenuComponent
+    LeftmenuComponent,
+    PostdetailComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [DashboardService, {
+  providers: [PostService, {
     provide: HTTP_INTERCEPTORS,
     useClass: ApiInterceptor,
     multi: true
