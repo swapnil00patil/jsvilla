@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Post } from './post';
+import { Post, Tag, PostRequest } from './post';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,6 +15,7 @@ const httpOptions = {
 export class PostService {
 
     private getPostsUrl = '/posts';
+    private getTagsUrl = '/tags'
     private cachedPosts;
 
     constructor(private http: HttpClient) { }
@@ -32,6 +33,25 @@ export class PostService {
 
     getPost(id): Post {
         return this.cachedPosts ? this.cachedPosts[id] : '';
+    }
+
+    savePost (post: PostRequest): Observable<Post> {
+        return this.http.post<Post>(this.getPostsUrl, post, httpOptions).pipe(
+          tap((post: Post) => this.log(`added post w/ id=${post.id}`)),
+          catchError(this.handleError<Post>('addPost'))
+        );
+      }
+
+
+    getTags(): Observable<Tag[]> {
+        return this.http.get<Tag[]>(this.getTagsUrl)
+            .pipe(
+            tap(tags => {
+                this.log(`fetched TAGS`);
+                this.cachAsMap(tags);
+            }),
+            catchError(this.handleError('getTags', []))
+            );
     }
 
     /**

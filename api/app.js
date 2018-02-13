@@ -7,11 +7,11 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var posts = require('./routes/posts');
+var tags = require('./routes/tags');
 
 var app = express();
 
 app.use(function (req, res, next) {
-  console.log('sdfsd')
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
   // Request methods you wish to allow
@@ -39,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/posts', posts);
+app.use('/tags', tags);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
