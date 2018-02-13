@@ -1,0 +1,8 @@
+.app-layout {
+    display: flex;
+    width:100%;
+    min-height:100vh;
+}
+.main-section {
+    width:calc(100vw - 200px);
+}

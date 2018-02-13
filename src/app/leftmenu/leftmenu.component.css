@@ -1,0 +1,13 @@
+
+.logo {
+    font: 800 40px/1.3 'Cookie', Helvetica, sans-serif;
+    color: #907d04;
+    text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #907d04;
+}
+.hamburger {
+    background: #F0DB4F;
+    width:250px
+}

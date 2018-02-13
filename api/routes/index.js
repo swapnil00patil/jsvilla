@@ -1,5 +1,4 @@
 var express = require('express');
-var mysql = require('mysql');
 var db = require('../utils/db');
 var router = express.Router();
 
