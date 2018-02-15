@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Post, PostRequest, Tag } from '../services/post';
+import { Post, PostRequest, Tag, Author, AuthorRequest } from '../services/post';
 import { PostService } from '../services/post.service'
 
 @Component({
@@ -13,7 +13,10 @@ import { PostService } from '../services/post.service'
 export class AddpostComponent implements OnInit {
   post: Post;
   tags: Tag[];
+  authors: Author[];
   model = new PostRequest()
+  author = new AuthorRequest()
+  showAuthorForm= false
   constructor(
     private postService: PostService,
     private route: ActivatedRoute,
@@ -23,12 +26,19 @@ export class AddpostComponent implements OnInit {
     this.getTags()
   }
 
-  onSubmit() { 
+  savePost() { 
     this.postService.savePost(this.model)
     .subscribe(post => {
       console.log(post)
     });
     this.model.tags = [];
+  }
+
+  saveAuthor() { 
+    this.postService.saveAuthor(this.author)
+    .subscribe(author => {
+      console.log(author)
+    });
   }
   
   onChange(tag:Tag, isChecked: boolean) {
@@ -41,8 +51,11 @@ export class AddpostComponent implements OnInit {
   }
 
   getTags(): void {
-    this.postService.getTags()
-    .subscribe(tags => this.tags = tags);
+    this.postService.getTagsAuthors()
+    .subscribe(response => {
+      this.tags = response.tags
+      this.authors = response.authors
+    });
   }
 
   getPost(): void {
