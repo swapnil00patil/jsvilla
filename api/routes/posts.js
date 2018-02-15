@@ -12,11 +12,12 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
+
   let request = req.body;
   db.query("INSERT INTO js_wall_posts SET author_id='"+ request.author_id +"', posted_date='"+ request.posted_date +"', title='"+ request.title +"', description='"+ request.description +"', url='"+ request.url +"'", function (err, result, fields) {
     if (err) throw err;
-    let postId = result.insertId;
-    let tags = request.tags;
+    var postId = result.insertId;
+    var tags = request.tags;
     if(Array.isArray(tags) && tags.length > 0 && postId) {
       tags.forEach((tag) => {
         db.query("INSERT INTO js_post_tags SET post_id='"+ postId +"', tag_id='"+ tag.id +"'", function (err, result, fields) {
