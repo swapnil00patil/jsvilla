@@ -10,7 +10,7 @@
 
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea type="text" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
+            <textarea ng-bind-html="description" contenteditable="true" class="form-control" id="description" required [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
             <div [hidden]="description.valid || description.pristine" class="alert alert-danger">
                 Description is required
             </div>
