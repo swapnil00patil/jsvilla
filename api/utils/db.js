@@ -6,7 +6,8 @@ var con = mysql.createConnection({
     user: "root",
     password: "root",
     database: "jsvilla",
-    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
+    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
+    multipleStatements: true
 });
 con.connect(function (err) {
     if (err) throw err;

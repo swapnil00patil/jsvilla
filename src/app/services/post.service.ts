@@ -4,8 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
+import moment from 'moment/src/moment'
 
-import { Post, Tag, PostRequest } from './post';
+import { Post, Tag, PostRequest, TagsAuthors, AuthorRequest, Author } from './post';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,7 +16,8 @@ const httpOptions = {
 export class PostService {
 
     private getPostsUrl = '/posts';
-    private getTagsUrl = '/tags'
+    private getTagsAuthorsUrl = '/tags/authors'
+    private getAuthorsUrl = '/authors'
     private cachedPosts;
 
     constructor(private http: HttpClient) { }
@@ -35,20 +37,28 @@ export class PostService {
         return this.cachedPosts ? this.cachedPosts[id] : '';
     }
 
-    savePost (post: PostRequest): Observable<Post> {
+    savePost(post: PostRequest): Observable<Post> {
+        let posted = post.posted_date;
+        post.posted_date = moment(posted).format('YYYY-MM-DD hh:mm:ss');
         return this.http.post<Post>(this.getPostsUrl, post, httpOptions).pipe(
-          tap((post: Post) => this.log(`added post w/ id=${post.id}`)),
-          catchError(this.handleError<Post>('addPost'))
+            tap((post: Post) => this.log(`added post w/ id=${post.id}`)),
+            catchError(this.handleError<Post>('addPost'))
         );
-      }
+    }
+
+    saveAuthor(author: AuthorRequest): Observable<Author> {
+        return this.http.post<Author>(this.getAuthorsUrl, author, httpOptions).pipe(
+            tap((author: Author) => this.log(`added post w/ id=${author.id}`)),
+            catchError(this.handleError<Author>('addAuthor'))
+        );
+    }
 
 
-    getTags(): Observable<Tag[]> {
-        return this.http.get<Tag[]>(this.getTagsUrl)
+    getTagsAuthors(): Observable<TagsAuthors> {
+        return this.http.get<any>(this.getTagsAuthorsUrl)
             .pipe(
             tap(tags => {
                 this.log(`fetched TAGS`);
-                this.cachAsMap(tags);
             }),
             catchError(this.handleError('getTags', []))
             );
@@ -79,7 +89,7 @@ export class PostService {
     }
 
     private cachAsMap(posts: Post[]) {
-        this.cachedPosts = posts.reduce(function(map, obj) {
+        this.cachedPosts = posts.reduce(function (map, obj) {
             map[obj.id] = obj;
             return map;
         }, {});

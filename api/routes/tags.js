@@ -3,10 +3,14 @@ var db = require('../utils/db');
 var router = express.Router();
 
 /* GET tags listing. */
-router.get('/', function(req, res, next) {
-  db.query("SELECT * FROM js_tags ORDER BY id DESC", function (err, result, fields) {
+router.get('/authors', function(req, res, next) {
+  db.query("SELECT * FROM js_tags ORDER BY id DESC;SELECT * FROM js_authors ORDER BY id DESC;", ['', ''], function (err, results, fields) {
     if (err) throw err;
-    res.send(JSON.stringify(result));
+    var response = {
+      tags: results[0],
+      authors: results[1]
+    }
+    res.send(JSON.stringify(response));
   });
 });
 

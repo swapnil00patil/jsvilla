@@ -1,0 +1,16 @@
+:host .form-group {
+    display: flex;
+    margin:10px;
+}
+:host label {
+    width:200px;
+}
+:host input[type='text'], :host textarea, :host select {
+    padding: 5px;
+    width: 200px;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}

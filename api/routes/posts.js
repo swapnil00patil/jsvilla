@@ -12,9 +12,8 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-
   let request = req.body;
-  db.query("INSERT INTO js_wall_posts SET title='"+ request.title +"', description='"+ request.description +"', url='"+ request.url +"'", function (err, result, fields) {
+  db.query("INSERT INTO js_wall_posts SET author_id='"+ request.author_id +"', posted_date='"+ request.posted_date +"', title='"+ request.title +"', description='"+ request.description +"', url='"+ request.url +"'", function (err, result, fields) {
     if (err) throw err;
     let postId = result.insertId;
     let tags = request.tags;
