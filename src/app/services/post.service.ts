@@ -19,14 +19,19 @@ export class PostService {
     private getTagsAuthorsUrl = '/tags/authors'
     private getAuthorsUrl = '/authors'
     private cachedPosts;
+    private offset = 0;
 
     constructor(private http: HttpClient) { }
 
     getPosts(): Observable<Post[]> {
-        return this.http.get<Post[]>(this.getPostsUrl)
+        if(this.offset === -1) {
+            return Observable.empty();
+        }
+        return this.http.get<Post[]>(this.getPostsUrl + '/' + this.offset)
             .pipe(
             tap(posts => {
                 this.log(`fetched POSTS`);
+                this.offset = posts.length === 0 ? -1 : (this.offset + posts.length);
                 this.cachAsMap(posts);
             }),
             catchError(this.handleError('getPosts', []))

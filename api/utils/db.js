@@ -4,7 +4,7 @@ var connection  = mysql.createPool({
   host            : 'localhost',
   user            : 'root',
   password        : 'root',
-  database        : 'jsvilla1',
+  database        : 'jsvilla',
   socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
   multipleStatements: true
 });

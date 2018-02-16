@@ -3,8 +3,9 @@ var db = require('../utils/db');
 var router = express.Router();
 
 /* GET posts listing. */
-router.get('/', function(req, res, next) {
-  db.query("SELECT * FROM js_wall_posts ORDER BY id DESC", function (err, result, fields) {
+router.get('/:offset', function(req, res, next) {
+  var offset = (req.params && req.params.offset) || 0
+  db.query("SELECT * FROM js_wall_posts ORDER BY id DESC LIMIT 20 OFFSET " + offset, function (err, result, fields) {
     if (err) throw err;
     res.send(JSON.stringify(result));
   });
