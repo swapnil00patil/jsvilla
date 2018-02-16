@@ -2,6 +2,7 @@ export class Post {
     id: number;
     title: string;
     posted_date: string;
+    post_unique_url: string;
 }
 
 export class Tag {

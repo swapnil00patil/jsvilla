@@ -31,7 +31,6 @@ export class AddpostComponent implements OnInit {
     .subscribe(post => {
       console.log(post)
     });
-    this.model.tags = [];
   }
 
   saveAuthor() { 

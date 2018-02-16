@@ -90,7 +90,7 @@ export class PostService {
 
     private cachAsMap(posts: Post[]) {
         this.cachedPosts = posts.reduce(function (map, obj) {
-            map[obj.id] = obj;
+            map[obj.post_unique_url] = obj;
             return map;
         }, {});
     }

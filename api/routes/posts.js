@@ -12,9 +12,18 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-
   let request = req.body;
-  db.query("INSERT INTO js_wall_posts SET author_id='"+ request.author_id +"', posted_date='"+ request.posted_date +"', title='"+ request.title +"', description='"+ request.description +"', url='"+ request.url +"'", function (err, result, fields) {
+  request = {
+    author_id: db.escape(request.author_id),
+    posted_date: db.escape(request.posted_date),
+    title: db.escape(request.title),
+    post_unique_url: db.escape(request.title.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]/g, "").toLowerCase()),
+    description: db.escape(request.description),
+    url: db.escape(request.url),
+    image_url: db.escape(request.image_url) || '',
+    demo_url: db.escape(request.demo_url) || ''
+  }
+  db.query("INSERT INTO js_wall_posts SET post_unique_url="+ request.post_unique_url +", author_id="+ request.author_id +", posted_date="+ request.posted_date +", title="+ request.title +", description="+ request.description +", url="+ request.url +", image_url="+ request.image_url +", demo_url="+ request.demo_url +"", function (err, result, fields) {
     if (err) throw err;
     var postId = result.insertId;
     var tags = request.tags;

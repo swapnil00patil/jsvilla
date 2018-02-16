@@ -15,6 +15,19 @@
                 Description is required
             </div>
         </div>
+        
+        <div class="form-group">
+            <label for="image_url">Image url</label>
+            <input type="text" class="form-control" id="image_url" [(ngModel)]="model.image_url" name="image_url" #image_url="ngModel">
+            <div [hidden]="image_url.valid || image_url.pristine" class="alert alert-danger">
+                Image URL is required
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="demo_url">Demo url</label>
+            <input type="text" class="form-control" id="demo_url" [(ngModel)]="model.demo_url" name="demo_url" #demo_url="ngModel">
+        </div>
 
         <div class="form-group">
             <label for="url">Url</label>
@@ -58,10 +71,22 @@
     <form *ngIf="showAuthorForm" (ngSubmit)="saveAuthor();authorForm.reset()" #authorForm="ngForm">
         <div class="form-group">
             <label for="name">Author name</label>
-            <input type="text" class="form-control" id="title" required [(ngModel)]="author.name" name="name" #name="ngModel">
+            <input type="text" class="form-control" id="name" required [(ngModel)]="author.name" name="name" #name="ngModel">
             <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                 Author name is required
             </div>
+        </div>
+        <div class="form-group">
+            <label for="author_description">Author description</label>
+            <input type="text" class="form-control" id="author_description" [(ngModel)]="author.description" name="author_description" #author_description="ngModel">
+        </div>
+        <div class="form-group">
+            <label for="name">Twitter</label>
+            <input type="text" class="form-control" id="twitter_url" [(ngModel)]="author.twitter_url" name="twitter_url" #twitter_url="ngModel">
+        </div>
+        <div class="form-group">
+            <label for="name">Github</label>
+            <input type="text" class="form-control" id="github_url" [(ngModel)]="author.github_url" name="github_url" #github_url="ngModel">
         </div>
         <button type="submit" class="btn btn-success" [disabled]="!authorForm.form.valid">Submit</button>
         <button type="button" class="btn btn-default" (click)="authorForm.reset()">Reset</button>

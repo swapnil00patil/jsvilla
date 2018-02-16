@@ -44,3 +44,4 @@ Thumbs.db
 # node files
 *nohup.out
 *.gitkeep
+*.log*

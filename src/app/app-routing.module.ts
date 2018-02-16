@@ -5,7 +5,7 @@ import { PostdetailComponent }   from './post-detail/postdetail.component';
 import { AddpostComponent }   from './add-post/addpost.component';
 
 const routes: Routes = [
-  { path: 'post/:id', component: PostdetailComponent },
+  { path: 'post/:unique', component: PostdetailComponent },
   { path: 'addpost/swapgayuswara', component: AddpostComponent },
   { path: '', component: DashboardComponent }
 ];

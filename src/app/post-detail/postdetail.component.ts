@@ -22,8 +22,8 @@ export class PostdetailComponent implements OnInit {
   }
 
   getPost(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.post = this.postService.getPost(id);
+    const unique = this.route.snapshot.paramMap.get('unique');
+    this.post = this.postService.getPost(unique);
     if(!this.post) {
       this.goBack()
     }
