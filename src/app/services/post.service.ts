@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import 'rxjs/add/observable/from';
 import { catchError, map, tap } from 'rxjs/operators';
 import moment from 'moment/src/moment'
 
@@ -23,16 +24,24 @@ export class PostService {
 
     constructor(private http: HttpClient) { }
 
-    getPosts(): Observable<Post[]> {
-        if(this.offset === -1) {
-            return Observable.empty();
+    getPosts(type, unique, offset?): Observable<Post[]> {
+        if(offset === 0) {
+            this.cachedPosts = [];
+            this.offset = offset;
+        } else if(this.offset === -1) {
+            return Observable.from([]);
         }
-        return this.http.get<Post[]>(this.getPostsUrl + '/' + this.offset)
+        let post = {
+            offset: this.offset,
+            type: type,
+            unique: unique
+        }
+        return this.http.post<Post[]>(this.getPostsUrl, post, httpOptions)
             .pipe(
             tap(posts => {
                 this.log(`fetched POSTS`);
                 this.offset = posts.length === 0 ? -1 : (this.offset + posts.length);
-                this.cachAsMap(posts);
+                this.cacheAsMap(posts);
             }),
             catchError(this.handleError('getPosts', []))
             );
@@ -45,7 +54,7 @@ export class PostService {
     savePost(post: PostRequest): Observable<Post> {
         let posted = post.posted_date;
         post.posted_date = moment(posted).format('YYYY-MM-DD hh:mm:ss');
-        return this.http.post<Post>(this.getPostsUrl, post, httpOptions).pipe(
+        return this.http.post<Post>(this.getPostsUrl + '/save', post, httpOptions).pipe(
             tap((post: Post) => this.log(`added post w/ id=${post.id}`)),
             catchError(this.handleError<Post>('addPost'))
         );
@@ -59,8 +68,8 @@ export class PostService {
     }
 
 
-    getTagsAuthors(): Observable<TagsAuthors> {
-        return this.http.get<any>(this.getTagsAuthorsUrl)
+    getTagsAuthors(limit): Observable<TagsAuthors> {
+        return this.http.get<any>(this.getTagsAuthorsUrl + '/' + limit)
             .pipe(
             tap(tags => {
                 this.log(`fetched TAGS`);
@@ -93,9 +102,9 @@ export class PostService {
         console.log('DashboardService: ' + message);
     }
 
-    private cachAsMap(posts: Post[]) {
+    private cacheAsMap(posts: Post[]) {
         this.cachedPosts = posts.reduce(function (map, obj) {
-            map[obj.post_unique_url] = obj;
+            map[obj.unique_value || obj.id] = obj;
             return map;
         }, {});
     }

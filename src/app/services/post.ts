@@ -2,17 +2,19 @@ export class Post {
     id: number;
     title: string;
     posted_date: string;
-    post_unique_url: string;
+    unique_value: string;
 }
 
 export class Tag {
   id: number;
   title: string;
   selected: boolean;
+  unique_value: string;
 }
 export class Author {
   id: number;
   name: string;
+  unique_value: string;
 }
 export class TagsAuthors {
   tags: Array<Tag>;

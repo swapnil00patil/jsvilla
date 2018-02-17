@@ -50,7 +50,7 @@ export class AddpostComponent implements OnInit {
   }
 
   getTags(): void {
-    this.postService.getTagsAuthors()
+    this.postService.getTagsAuthors(0)
     .subscribe(response => {
       this.tags = response.tags
       this.authors = response.authors

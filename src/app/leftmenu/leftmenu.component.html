@@ -1,4 +1,15 @@
 <div class="logo">JSVILLA</div>
 <ul>
-    tags
+    <div class="form-group">
+        <label for="url">Tags</label>
+        <div *ngFor="let tag of tags; let i=index">
+            <a [routerLink]="['./', 'tag--' + tag.unique_value || tag.id]">{{tag.title}}</a>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="url">Authors</label>
+        <div *ngFor="let author of authors; let i=index">
+            <a [routerLink]="['./', 'author--' + author.unique_value || author.id]">{{author.name}}</a>
+        </div>
+    </div>
 </ul>
