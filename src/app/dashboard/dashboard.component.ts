@@ -4,6 +4,7 @@ import { Router, NavigationStart, NavigationEnd } from "@angular/router";
 import { Post } from '../services/post';
 import { PostService } from '../services/post.service'
 import { validateConfig } from '@angular/router/src/config';
+declare let ga: any;
 
 @Component({
   selector: 'app-dashboard',

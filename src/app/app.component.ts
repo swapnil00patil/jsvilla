@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router, NavigationStart, NavigationEnd } from "@angular/router";
+declare let ga: any;
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  subscribers: any = {};
+
+  constructor(private router: Router) {
+  
+  }
+
+  ngAfterViewInit() {
+    this.subscribers.analytics = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        ga('set', 'page', event.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    })
+  }
+
+  ngOnDestroy(){
+    this.subscribers.analytics.unsubscribe();
+  }
 }
