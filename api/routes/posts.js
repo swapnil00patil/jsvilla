@@ -3,7 +3,7 @@ var db = require('../utils/db');
 var router = express.Router();
 
 router.post('/save', function (req, res, next) {
-  let request = req.body;
+  var request = req.body;
   request = {
     author_id: db.escape(request.author_id),
     posted_date: db.escape(request.posted_date),
@@ -31,8 +31,9 @@ router.post('/save', function (req, res, next) {
 
 /* GET posts listing. */
 router.post('', function (req, res, next) {
-  let request = req.body;
+  var request = req.body;
   var offset = (request.offset) || 0
+  var limit = 20
   switch (request.type) {
     case 'tag':
       db.query("SELECT * FROM js_tags WHERE unique_value='" + request.unique + "'", function (err, tags_result, tags_fields) {
@@ -40,7 +41,7 @@ router.post('', function (req, res, next) {
         var tagsIn = tags_result.map(function (elem) {
           return elem.id;
         }).join(",");
-        db.query("SELECT * FROM js_wall_posts as jw, js_post_tags as jpt WHERE jpt.tag_id in (" + tagsIn + ") and jw.id = jpt.post_id ORDER BY jw.id DESC LIMIT 3 OFFSET " + offset, function (err, result, fields) {
+        db.query("SELECT * FROM js_wall_posts as jw, js_post_tags as jpt WHERE jpt.tag_id in (" + tagsIn + ") and jw.id = jpt.post_id ORDER BY jw.id DESC LIMIT "+ limit +" OFFSET " + offset, function (err, result, fields) {
           if (err) throw err;
           res.send(JSON.stringify(result));
         });
@@ -52,14 +53,14 @@ router.post('', function (req, res, next) {
         var authorsIn = authors_result.map(function (elem) {
           return elem.id;
         }).join(",");
-        db.query("SELECT * FROM js_wall_posts WHERE author_id in (" + authorsIn + ") ORDER BY id DESC LIMIT 3 OFFSET " + offset, function (err, result, fields) {
+        db.query("SELECT * FROM js_wall_posts WHERE author_id in (" + authorsIn + ") ORDER BY id DESC LIMIT "+ limit +" OFFSET " + offset, function (err, result, fields) {
           if (err) throw err;
           res.send(JSON.stringify(result));
         });
       });
       break
     default:
-      db.query("SELECT * FROM js_wall_posts ORDER BY id DESC LIMIT 3 OFFSET " + offset, function (err, result, fields) {
+      db.query("SELECT * FROM js_wall_posts ORDER BY id DESC LIMIT "+ limit +" OFFSET " + offset, function (err, result, fields) {
         if (err) throw err;
         res.send(JSON.stringify(result));
       });

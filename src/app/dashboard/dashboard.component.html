@@ -1,8 +1,19 @@
 <base target="_blank">
-<ul>
-    <li *ngFor="let post of posts">
-            <a [routerLink]="['./post', post.unique_value || post.id]">view</a>
-        <a href="{{post.url}}" target="_blank">{{post.title}}</a>
-        <div [innerHTML]="post.description"></div>
-    </li>
-</ul>
+<div class="wall-posts">
+    <div *ngFor="let post of posts" class="wall-post">
+        <div class="wall-post-left">
+            <h2>
+                <a href="{{post.url}}" target="_blank">{{post.title}}</a>
+            </h2>
+            <div [innerHTML]="post.description"></div>
+            <div class="links-section">
+                <a *ngIf="post.demo_url" href="{{post.demo_url}}" target="_blank" class="btn">DEMO</a>
+                <a href="{{post.url}}" target="_blank" class="btn">Visit Article</a>
+                <a class="more-link" [routerLink]="['../post', post.unique_value || post.id]">more ..</a>
+            </div>
+        </div>
+        <div class="wall-post-right">
+            <img src="{{post.image_url}}" />
+        </div>
+    </div>
+</div>

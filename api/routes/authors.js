@@ -3,7 +3,7 @@ var db = require('../utils/db');
 var router = express.Router();
 
 router.post('/', function(req, res, next) {
-  let request = req.body;
+  var request = req.body;
   request = {
     name: db.escape(request.name) || '',
     unique_value: db.escape(request.name.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-]/g, "").toLowerCase()),
@@ -13,7 +13,7 @@ router.post('/', function(req, res, next) {
   }
   db.query("INSERT INTO js_authors SET unique_value="+ request.unique_value +", name="+ request.name +", description="+ request.description +", twitter_url="+ request.twitter_url +", github_url="+ request.github_url +"", function (err, result, fields) {
     if (err) throw err;
-    let authorId = result.insertId;
+    var authorId = result.insertId;
     res.send(JSON.stringify(authorId));
   });
 });

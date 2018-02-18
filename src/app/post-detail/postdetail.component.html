@@ -1,1 +1,20 @@
-{{post.title}}
+<div class="wall-posts">
+    <div class="links-section">
+        <a (click)="goBack()" class="btn">Back</a>
+    </div>
+    <div class="wall-post">
+        <div class="wall-post-left">
+            <h2>
+                <a href="{{post.url}}" target="_blank">{{post.title}}</a>
+            </h2>
+            <div [innerHTML]="post.description"></div>
+            <div class="links-section">
+                <a *ngIf="post.demo_url" href="{{post.demo_url}}" target="_blank" class="btn">DEMO</a>
+                <a href="{{post.url}}" target="_blank" class="btn">Visit Article</a>
+            </div>
+        </div>
+        <div class="wall-post-right">
+            <img src="{{post.image_url}}" />
+        </div>
+    </div>
+</div>

@@ -26,7 +26,6 @@ export class PostService {
 
     getPosts(type, unique, offset?): Observable<Post[]> {
         if(offset === 0) {
-            this.cachedPosts = [];
             this.offset = offset;
         } else if(this.offset === -1) {
             return Observable.from([]);

@@ -19,7 +19,7 @@ export class LeftmenuComponent implements OnInit {
   }
 
   getTagsAuthors(): void {
-    this.postService.getTagsAuthors(5)
+    this.postService.getTagsAuthors(20)
     .subscribe(response => {
       this.tags = response.tags
       this.authors = response.authors
