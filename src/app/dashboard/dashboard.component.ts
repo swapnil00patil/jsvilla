@@ -14,27 +14,38 @@ export class DashboardComponent implements OnInit {
   posts: Post[] = [];
   type: String = '';
   unique: String = '';
+  subscribers: any = {};
 
-  constructor(private postService: PostService, private router: Router) { 
-    router.events.subscribe((event) => {
-      if(event instanceof NavigationEnd) {
-        let params = event.url.replace('/','').split('--');
-          this.type = params[0];
-          this.unique = params[1];
-          this.posts = [];
-          this.getPosts(this.type, this.unique, 0);
-      }
-    })
+  constructor(private postService: PostService, private router: Router) {
+  
   }
 
   ngOnInit() {
-    // this.getPosts();
+    this.getPosts(this.type, this.unique, 0);
     window.onscroll = (ev) => {
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         // you're at the bottom of the page
         this.getPosts(this.type, this.unique);
       }
     };
+  }
+
+  ngAfterViewInit() {
+    this.subscribers.router = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if(event.url === '/' || event.url.includes('--')) {
+          let params = event.url.replace('/', '').split('--');
+          this.type = params[0];
+          this.unique = params[1];
+          this.posts = [];
+          this.getPosts(this.type, this.unique, 0);
+        }
+      }
+    })
+  }
+
+  ngOnDestroy(){
+    this.subscribers.router.unsubscribe();
   }
 
   getPosts(type, unique, offset?): void {

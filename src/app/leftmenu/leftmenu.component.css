@@ -12,19 +12,27 @@
     display: flex;
     flex-direction: column;
 }
-:host .menu-item {
+:host .menu-item, :host .menu-item-only {
     margin-bottom: 15px;
+}
+:host .menu-item-only .menu-title {
+    padding: 7px 0;
+    font-size: 20px;
+    border-top: 1px solid #dac32b;
+}
+:host .menu-item-only .menu-title:hover {
+    text-decoration: underline;
 }
 :host .menu-item .menu-title {
     padding: 7px 15px;
-    font-size: 20px;
     border-bottom: 1px solid #dac32b;
     border-top: 1px solid #dac32b;
 }
-:host .menu-item a {
+:host .menu-item a, :host .menu-item-only a  {
     padding: 7px 15px;
     text-decoration: none;
     color: #907d04;
+    font-size: 20px;
 }
 :host .menu-item a:hover {
     color:#6b5e0b;
