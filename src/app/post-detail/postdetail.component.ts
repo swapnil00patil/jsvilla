@@ -46,7 +46,7 @@ export class PostdetailComponent implements OnInit {
      "name='title'"
     );
     this.metaService.updateTag({
-      content: post.description.replace(new RegExp('</ br>', 'g'), '.').trim()
+      content: post.description.replace(new RegExp('<br />', 'g'), '.').trim()
     },
      "name='description'"
     );

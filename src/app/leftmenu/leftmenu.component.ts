@@ -44,7 +44,7 @@ export class LeftmenuComponent implements OnInit {
      "name='title'"
     );
     this.metaService.updateTag({
-      content: meta.description.replace(new RegExp('</ br>', 'g'), '.').trim()
+      content: meta.description.replace(new RegExp('<br />', 'g'), '.').trim()
     },
      "name='description'"
     );
