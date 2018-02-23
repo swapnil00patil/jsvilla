@@ -4,5 +4,6 @@
     min-height:100vh;
 }
 .main-section {
+    margin-left: 250px;
     width:calc(100vw - 250px);
 }
