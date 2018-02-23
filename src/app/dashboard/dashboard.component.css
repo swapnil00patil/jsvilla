@@ -60,6 +60,9 @@
 .infoline:first-letter {
     text-transform:capitalize;
 }
+.author-section {
+    margin-top:5px;
+}
 @media only screen and (max-device-width: 768px){
     :host .wall-post-left {
         width: 100%;

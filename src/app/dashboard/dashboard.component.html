@@ -7,6 +7,7 @@
                 <a href="{{post.url}}" target="_blank">{{post.title}}</a>
             </h2>
             <div innerHTML="{{post.description}}"></div>
+            <div class="author-section"><a [routerLink]="['./', 'author--' + post.author_unique_value || author.id]">{{post.author_name}}</a></div>
             <div class="links-section">
                 <a *ngIf="post.demo_url" href="{{post.demo_url}}" target="_blank" class="btn">DEMO</a>
                 <a href="{{post.url}}" target="_blank" class="btn">Visit Article</a>

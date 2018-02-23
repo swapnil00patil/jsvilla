@@ -66,7 +66,7 @@ router.post('', function (req, res, next) {
       });
       break
     default:
-      db.query("SELECT * FROM js_wall_posts ORDER BY id DESC LIMIT "+ limit +" OFFSET " + offset, function (err, result, fields) {
+      db.query("SELECT jw.*, ja.name as author_name, ja.unique_value as author_unique_value FROM js_wall_posts as jw LEFT JOIN js_authors as ja ON jw.author_id = ja.id  ORDER BY jw.id DESC LIMIT "+ limit +" OFFSET " + offset, function (err, result, fields) {
         if (err) throw err;
         res.send(JSON.stringify(result));
       });
