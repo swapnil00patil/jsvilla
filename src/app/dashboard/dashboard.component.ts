@@ -18,9 +18,9 @@ export class DashboardComponent implements OnInit {
   subscribers: any = {};
   infoLine = '';
 
-  constructor(private postService: PostService, 
+  constructor(private postService: PostService,
     private router: Router) {
-  
+
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
   }
 
   callGetPost(url) {
-    if(url === '/' || url.includes('--')) {
+    if (url === '/' || url.includes('--')) {
       let params = url.replace('/', '').split('--');
       this.type = params[0];
       this.unique = params[1];
@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscribers.router.unsubscribe();
   }
 

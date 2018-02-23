@@ -20,14 +20,16 @@ export class PostService {
     private getTagsAuthorsUrl = '/tags/authors'
     private getAuthorsUrl = '/authors'
     private cachedPosts;
+    private cachedTags;
+    private cachedAuthors;
     private offset = 0;
 
     constructor(private http: HttpClient) { }
 
     getPosts(type, unique, offset?): Observable<Post[]> {
-        if(offset === 0) {
+        if (offset === 0) {
             this.offset = offset;
-        } else if(this.offset === -1) {
+        } else if (this.offset === -1) {
             return Observable.from([]);
         }
         let post = {
@@ -37,21 +39,33 @@ export class PostService {
         }
         return this.http.post<Post[]>(this.getPostsUrl, post, httpOptions)
             .pipe(
-            tap(posts => {
-                this.log(`fetched POSTS`);
-                this.offset = posts.length === 0 ? -1 : (this.offset + posts.length);
-                this.cacheAsMap(posts);
-            }),
-            catchError(this.handleError('getPosts', []))
+                tap(posts => {
+                    this.log(`fetched POSTS`);
+                    this.offset = posts.length === 0 ? -1 : (this.offset + posts.length);
+                    this.cachedPosts = this.cacheAsMap(posts);
+                }),
+                catchError(this.handleError('getPosts', []))
             );
     }
 
     getPost(id): Observable<Post[]> {
-        if(this.cachedPosts && this.cachedPosts[id]) {
+        if (this.cachedPosts && this.cachedPosts[id]) {
             return Observable.from([[this.cachedPosts[id]]]);
         } else {
             return this.getPosts('single', id)
         }
+    }
+
+    getTagsAuthors(limit): Observable<TagsAuthors> {
+        return this.http.get<any>(this.getTagsAuthorsUrl + '/' + limit)
+            .pipe(
+                tap(response => {
+                    this.log(`fetched TAGS AUHTORS`);
+                    this.cachedTags = this.cacheAsMap(response.tags, true);
+                    this.cachedAuthors = this.cacheAsMap(response.authors, true);
+                }),
+                catchError(this.handleError('getTags', []))
+            );
     }
 
     savePost(post: PostRequest): Observable<Post> {
@@ -68,17 +82,6 @@ export class PostService {
             tap((author: Author) => this.log(`added post w/ id=${author.id}`)),
             catchError(this.handleError<Author>('addAuthor'))
         );
-    }
-
-
-    getTagsAuthors(limit): Observable<TagsAuthors> {
-        return this.http.get<any>(this.getTagsAuthorsUrl + '/' + limit)
-            .pipe(
-            tap(tags => {
-                this.log(`fetched TAGS`);
-            }),
-            catchError(this.handleError('getTags', []))
-            );
     }
 
     /**
@@ -105,9 +108,9 @@ export class PostService {
         console.log('DashboardService: ' + message);
     }
 
-    private cacheAsMap(posts: Post[]) {
-        this.cachedPosts = posts.reduce(function (map, obj) {
-            map[obj.unique_value || obj.id] = obj;
+    private cacheAsMap(items: any[], byId = false) {
+        return items.reduce(function (map, obj) {
+            byId ? map[obj.id || obj.unique_value] = obj : map[obj.unique_value || obj.id] = obj;
             return map;
         }, {});
     }
