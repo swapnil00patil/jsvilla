@@ -16,13 +16,14 @@ export class DashboardComponent implements OnInit {
   type: String = '';
   unique: String = '';
   subscribers: any = {};
+  infoLine = '';
 
   constructor(private postService: PostService, private router: Router) {
   
   }
 
   ngOnInit() {
-    this.getPosts(this.type, this.unique, 0);
+    this.callGetPost(this.router.url);
     window.onscroll = (ev) => {
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         // you're at the bottom of the page
@@ -34,15 +35,20 @@ export class DashboardComponent implements OnInit {
   ngAfterViewInit() {
     this.subscribers.router = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if(event.url === '/' || event.url.includes('--')) {
-          let params = event.url.replace('/', '').split('--');
-          this.type = params[0];
-          this.unique = params[1];
-          this.posts = [];
-          this.getPosts(this.type, this.unique, 0);
-        }
+        this.callGetPost(event.url);
       }
     })
+  }
+
+  callGetPost(url) {
+    if(url === '/' || url.includes('--')) {
+      let params = url.replace('/', '').split('--');
+      this.type = params[0];
+      this.unique = params[1];
+      this.posts = [];
+      this.getPosts(this.type, this.unique, 0);
+      this.infoLine = this.unique.split('-').join(' ') + ' Article\'s';
+    }
   }
 
   ngOnDestroy(){

@@ -1,5 +1,6 @@
 <base target="_blank">
 <div class="wall-posts">
+    <h2 class="infoline" *ngIf="infoLine">{{infoLine}}</h2>
     <div *ngFor="let post of posts" class="wall-post">
         <div class="wall-post-left">
             <h2>

@@ -1,17 +1,24 @@
-<div class="logo">JSVILLA</div>
-
-<div class="menu-item-only">
-        <div class="menu-title"><a [routerLink]="['./']">Home</a></div>
+<div class="menu-wrap" *ngIf="showMenu">
+    <div class="logo">JSVILLA</div>
+    <div class="menu-item-only">
+            <div class="menu-title"><a [routerLink]="['./']">Home</a></div>
+        </div>
+    <div class="menu-item">
+        <div class="menu-title">Tags</div>
+        <div class="submenu" *ngFor="let tag of tags; let i=index">
+            <a (click)="toggleMenu()" [routerLink]="['./', 'tag--' + tag.unique_value || tag.id]">{{tag.title}}</a>
+        </div>
     </div>
-<div class="menu-item">
-    <div class="menu-title">Tags</div>
-    <div class="submenu" *ngFor="let tag of tags; let i=index">
-        <a [routerLink]="['./', 'tag--' + tag.unique_value || tag.id]">{{tag.title}}</a>
+    <div class="menu-item">
+        <div class="menu-title">Authors</div>
+        <div class="submenu" *ngFor="let author of authors; let i=index">
+            <a (click)="toggleMenu()" [routerLink]="['./', 'author--' + author.unique_value || author.id]">{{author.name}}</a>
+        </div>
     </div>
 </div>
-<div class="menu-item">
-    <div class="menu-title">Authors</div>
-    <div class="submenu" *ngFor="let author of authors; let i=index">
-        <a [routerLink]="['./', 'author--' + author.unique_value || author.id]">{{author.name}}</a>
-    </div>
+<div (click)="toggleMenu()" class="hamburger-icon">
+    <div class="hamburger-line hamburger-line-top"></div>
+    <div class="hamburger-line"></div>
+    <div class="hamburger-line"></div>
 </div>
+<div class="back-shadow" (click)="toggleMenu()" *ngIf="showMenu"></div>

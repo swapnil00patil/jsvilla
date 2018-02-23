@@ -23,7 +23,7 @@ export class AppComponent {
     })
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscribers.analytics.unsubscribe();
   }
 }
