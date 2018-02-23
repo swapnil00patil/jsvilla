@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from "@angular/router";
+import { Meta } from '@angular/platform-browser';
 
 import { Post } from '../services/post';
 import { PostService } from '../services/post.service'
@@ -18,7 +19,9 @@ export class DashboardComponent implements OnInit {
   subscribers: any = {};
   infoLine = '';
 
-  constructor(private postService: PostService, private router: Router) {
+  constructor(private postService: PostService, 
+    private router: Router,
+    private metaService: Meta) {
   
   }
 
@@ -62,6 +65,19 @@ export class DashboardComponent implements OnInit {
           this.posts.push(post)
         })
       });
+  }
+
+  updateMeta(meta) {
+    this.metaService.updateTag({
+      content: meta.title.trim()
+    },
+     "name='title'"
+    );
+    this.metaService.updateTag({
+      content: meta.description.replace(new RegExp('</ br>', 'g'), '.').trim()
+    },
+     "name='description'"
+    );
   }
 
 }

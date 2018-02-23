@@ -6,13 +6,13 @@
     <div class="menu-item">
         <div class="menu-title">Tags</div>
         <div class="submenu" *ngFor="let tag of tags; let i=index">
-            <a (click)="toggleMenu()" [routerLink]="['./', 'tag--' + tag.unique_value || tag.id]">{{tag.title}}</a>
+            <a (click)="toggleMenu(tag.title, tag.description)" [routerLink]="['./', 'tag--' + tag.unique_value || tag.id]">{{tag.title}}</a>
         </div>
     </div>
     <div class="menu-item">
         <div class="menu-title">Authors</div>
         <div class="submenu" *ngFor="let author of authors; let i=index">
-            <a (click)="toggleMenu()" [routerLink]="['./', 'author--' + author.unique_value || author.id]">{{author.name}}</a>
+            <a (click)="toggleMenu(author.name, author.description)" [routerLink]="['./', 'author--' + author.unique_value || author.id]">{{author.name}}</a>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 
 import { Post, Tag, Author } from '../services/post';
 import { PostService } from '../services/post.service'
@@ -13,7 +14,8 @@ export class LeftmenuComponent implements OnInit {
   tags: Tag[];
   authors: Author[];
   showMenu: boolean;
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService,
+    private metaService: Meta) { }
 
   ngOnInit() {
     this.getTagsAuthors();
@@ -28,9 +30,23 @@ export class LeftmenuComponent implements OnInit {
     });
   }
 
-  toggleMenu() {
+  toggleMenu(title, description) {
+    this.updateMeta({title: title, description: description});
     if(deviceType.mobile()) {
       this.showMenu = !this.showMenu;
     }
+  }
+
+  updateMeta(meta) {
+    this.metaService.updateTag({
+      content: meta.title.trim()
+    },
+     "name='title'"
+    );
+    this.metaService.updateTag({
+      content: meta.description.replace(new RegExp('</ br>', 'g'), '.').trim()
+    },
+     "name='description'"
+    );
   }
 }
