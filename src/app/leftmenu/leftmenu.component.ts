@@ -31,7 +31,7 @@ export class LeftmenuComponent implements OnInit {
   }
 
   toggleMenu(title, description) {
-    this.updateMeta({title: title, description: description});
+    title && description && this.updateMeta({title: title, description: description});
     if(deviceType.mobile()) {
       this.showMenu = !this.showMenu;
     }
