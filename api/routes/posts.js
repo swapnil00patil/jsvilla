@@ -35,6 +35,12 @@ router.post('', function (req, res, next) {
   var offset = (request.offset) || 0
   var limit = 20
   switch (request.type) {
+    case 'single':
+      db.query("SELECT * FROM js_wall_posts WHERE unique_value='" + request.unique + "'", function (err, result, fields) {
+        if (err) throw err;
+        res.send(JSON.stringify(result));
+      });
+      break
     case 'tag':
       db.query("SELECT * FROM js_tags WHERE unique_value='" + request.unique + "'", function (err, tags_result, tags_fields) {
         if (err) throw err;

@@ -46,8 +46,12 @@ export class PostService {
             );
     }
 
-    getPost(id): Post {
-        return this.cachedPosts ? this.cachedPosts[id] : '';
+    getPost(id): Observable<Post[]> {
+        if(this.cachedPosts && this.cachedPosts[id]) {
+            return Observable.from([[this.cachedPosts[id]]]);
+        } else {
+            return this.getPosts('single', id)
+        }
     }
 
     savePost(post: PostRequest): Observable<Post> {

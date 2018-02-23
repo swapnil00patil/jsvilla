@@ -16,7 +16,7 @@ export class AppComponent {
 
   ngAfterViewInit() {
     this.subscribers.analytics = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
+      if (event instanceof NavigationEnd && typeof ga != 'undefined') {
         ga('set', 'page', event.urlAfterRedirects);
         ga('send', 'pageview');
       }

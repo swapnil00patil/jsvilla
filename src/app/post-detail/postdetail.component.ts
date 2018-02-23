@@ -23,10 +23,13 @@ export class PostdetailComponent implements OnInit {
 
   getPost(): void {
     const unique = this.route.snapshot.paramMap.get('unique');
-    this.post = this.postService.getPost(unique);
-    if(!this.post) {
-      this.goBack()
-    }
+    this.postService.getPost(unique)
+    .subscribe(response => {
+      this.post = response[0]
+      if(!this.post) {
+        this.goBack()
+      }
+    });
   }
 
   goBack(): void {

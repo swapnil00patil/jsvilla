@@ -57,14 +57,6 @@ export class AddpostComponent implements OnInit {
     });
   }
 
-  getPost(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.post = this.postService.getPost(id);
-    if(!this.post) {
-      this.goBack()
-    }
-  }
-
   goBack(): void {
     this.location.back();
   }
