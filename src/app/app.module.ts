@@ -24,7 +24,7 @@ import { PostService } from './services/post.service';
     AddpostComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'jsvilla'}),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
