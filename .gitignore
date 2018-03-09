@@ -47,3 +47,4 @@ Thumbs.db
 *.log*
 
 *config.js
+*config.ts
