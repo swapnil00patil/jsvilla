@@ -45,3 +45,5 @@ Thumbs.db
 *nohup.out
 *.gitkeep
 *.log*
+
+*config.js
