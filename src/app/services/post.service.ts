@@ -56,13 +56,25 @@ export class PostService {
         }
     }
 
+    getTag(id): Tag {
+        if (this.cachedTags && this.cachedTags[id]) {
+            return this.cachedTags[id]
+        }
+    }
+
+    getAuthor(id): Author {
+        if (this.cachedAuthors && this.cachedAuthors[id]) {
+            return this.cachedAuthors[id]
+        }
+    }
+
     getTagsAuthors(limit): Observable<TagsAuthors> {
         return this.http.get<any>(this.getTagsAuthorsUrl + '/' + limit)
             .pipe(
                 tap(response => {
                     this.log(`fetched TAGS AUHTORS`);
-                    this.cachedTags = this.cacheAsMap(response.tags, true);
-                    this.cachedAuthors = this.cacheAsMap(response.authors, true);
+                    this.cachedTags = this.cacheAsMap(response.tags);
+                    this.cachedAuthors = this.cacheAsMap(response.authors);
                 }),
                 catchError(this.handleError('getTags', []))
             );

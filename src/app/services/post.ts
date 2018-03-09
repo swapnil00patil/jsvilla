@@ -10,11 +10,13 @@ export class Tag {
   title: string;
   selected: boolean;
   unique_value: string;
+  description: string;
 }
 export class Author {
   id: number;
   name: string;
   unique_value: string;
+  description: string;
 }
 export class TagsAuthors {
   tags: Array<Tag>;

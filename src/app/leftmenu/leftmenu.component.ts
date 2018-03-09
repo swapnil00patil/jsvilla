@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import { Post, Tag, Author } from '../services/post';
 import { PostService } from '../services/post.service'
@@ -15,7 +16,8 @@ export class LeftmenuComponent implements OnInit {
   authors: Author[];
   showMenu: boolean;
   constructor(private postService: PostService,
-    private metaService: Meta) { }
+    private metaService: Meta,
+    private router: Router) { }
 
   ngOnInit() {
     this.getTagsAuthors();
@@ -27,6 +29,16 @@ export class LeftmenuComponent implements OnInit {
     .subscribe(response => {
       this.tags = response.tags;
       this.authors = response.authors;
+
+      let paramsArr = this.router.url.replace('/', '').split('--');
+      if(paramsArr && paramsArr[0] === 'tag') {
+        let tag = this.postService.getTag(paramsArr[1]);
+        this.toggleMenu(tag.title, tag.description);
+      } else if(paramsArr && paramsArr[0] === 'author') {
+        let auhtor = this.postService.getAuthor(paramsArr[1]);
+        console.log(auhtor)
+        this.toggleMenu(auhtor.name, auhtor.description);
+      }
     });
   }
 
