@@ -12,7 +12,8 @@ router.post('/save', function (req, res, next) {
     description: db.escape(request.description.trim()),
     url: db.escape(request.url.trim()),
     image_url: db.escape(request.image_url.trim()) || '',
-    demo_url: db.escape(request.demo_url.trim()) || ''
+    demo_url: db.escape(request.demo_url.trim()) || '',
+    tags: request.tags
   }
   db.query("INSERT INTO js_wall_posts SET unique_value=" + request.unique_value + ", author_id=" + request.author_id + ", posted_date=" + request.posted_date + ", title=" + request.title + ", description=" + request.description + ", url=" + request.url + ", image_url=" + request.image_url + ", demo_url=" + request.demo_url + "", function (err, result, fields) {
     if (err) throw err;
@@ -24,7 +25,7 @@ router.post('/save', function (req, res, next) {
         });
       })
     }
-
+    
     res.send(JSON.stringify(postId));
   });
 });

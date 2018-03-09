@@ -9,12 +9,12 @@ var index = require('./routes/index');
 var posts = require('./routes/posts');
 var tags = require('./routes/tags');
 var authors = require('./routes/authors');
-
+var config = require('./config')
 var app = express();
 
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
+  res.setHeader('Access-Control-Allow-Origin', config.allow_server);
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   // Request headers you wish to allow
